@@ -19,13 +19,26 @@ How to use SyncGateway
 A SyncGateway configuration file is included at omoidebase/sync-gateway/config.json
 You can start SyncGateway specifying this file:
 
-`
-bin/sync_gateway config.json
-`
+    bin/sync_gateway config.json
 
 There are some 'place' documents under sync-gateway/places. You can add these document by:
 
-`
-curl -XPUT -H "Content-Type: application/json" -d @ryokan.json http://localhost:4985/omoidebase/E3F58FBF-6C5F-4410-AAA2-F5C666DFE958
-`
+    curl -XPUT -H "Content-Type: application/json" -d @ryokan.json http://localhost:4985/omoidebase/E3F58FBF-6C5F-4410-AAA2-F5C666DFE958
 
+You will also need to register some users to play with:
+
+- User for SyncGateway authentication:
+
+    curl -XPOST -H "Content-Type: application/json" -d '{
+      "name" : "username",
+      "password" : "password"}' http://localhost:4985/omoidebase/_user/
+
+- And additional profile document to manage channels of this user:
+
+    curl -XPUT -H "Content-Type: application/json" -d '{
+      "name" : "username",
+      "places" : ["place-id"],
+      "type" : "profile"
+    }' http://localhost:4985/omoidebase/username
+
+If everything has been set properly, you can login from the iOS app and start syncing.
